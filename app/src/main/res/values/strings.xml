@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">App Repn</string>
+    <string name="action_settings">Settings</string>
+    <string name="enterSecureCode">Veuillez entrer votre code de sécurité pour vous connecter</string>
+    <string name="secureCodePlaceholder">Code de sécurité</string>
+    <string name="connectButton">Se connecter</string>
+    <string name="waitForCredentialCheck">Vérification du code de sécurité en cours…</string>
+    <string name="wrongSecureCode">Le code de sécurité n\'est pas correct…</string>
+    <string name="serverError">Une erreur inattendue est surevenue… Peut être que le site du REPN est en maintenance ? Merci de réessayer plus tard.</string>
+    <string name="title_activity_user_list">UserListActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="synchroFinished">Synchronisation terminée</string>
+    <string name="action_synchronize">Synchroniser</string>
+</resources>

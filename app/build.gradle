@@ -1,0 +1,36 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        applicationId "be.repn.repnmobile"
+        minSdkVersion 10
+        targetSdkVersion 22
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+
+        debug {
+            buildConfigField "String", "SERVER_URL", '"http://192.168.1.3:9000/rest/"'
+        }
+
+        release {
+            buildConfigField "String", "SERVER_URL", '"http://www.repnivelles.be/rest/"'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile 'com.android.support:appcompat-v7:22.1.1'
+    compile 'com.loopj.android:android-async-http:1.4.5'
+    compile 'com.google.guava:guava:18.0'
+    compile 'com.google.code.gson:gson:2.3.1'
+    compile 'com.android.support:support-v4:22.1.1'
+}
