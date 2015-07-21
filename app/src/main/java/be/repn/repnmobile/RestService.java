@@ -61,7 +61,6 @@ public class RestService extends IntentService {
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 InputStream is = null;
                 InputStreamReader reader = null;
-                SQLiteDatabase writableDatabase = null;
                 try{
                     is = new ByteArrayInputStream(responseBody);
                     reader = new InputStreamReader(is);
@@ -80,9 +79,6 @@ public class RestService extends IntentService {
                         is.close();
                     } catch (IOException e) {
                         //do nothing
-                    }
-                    if(writableDatabase != null){
-                        writableDatabase.close();
                     }
                 }
 

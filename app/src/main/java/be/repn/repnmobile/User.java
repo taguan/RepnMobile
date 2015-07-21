@@ -82,4 +82,12 @@ public class User {
     public void setMobile(String mobile) {
         this.mobile = mobile;
     }
+
+    public String getAddress(){
+        StringBuilder sb = new StringBuilder();
+        if(street != null) sb.append(street).append(" ");
+        if(streetNumber != null) sb.append(streetNumber).append(" ");
+        if(city != null) sb.append(city);
+        return sb.toString();
+    }
 }

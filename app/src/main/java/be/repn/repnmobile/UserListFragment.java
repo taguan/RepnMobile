@@ -1,6 +1,8 @@
 package be.repn.repnmobile;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -10,10 +12,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.GridView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+import android.widget.*;
 
 public class UserListFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
@@ -44,14 +43,25 @@ public class UserListFragment extends Fragment implements LoaderManager.LoaderCa
         } else if(mListView instanceof GridView){
             ((GridView) mListView).setAdapter(mAdapter);
         } else throw new RuntimeException("Unsupported AbsListView " + mListView.getClass().toString());
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent i = new Intent(getActivity(), UserDetailsActivity.class);
+                Uri userUri = Uri.parse(RepnUserContentProvider.CONTENT_URI + "/" + id);
+                i.putExtra(RepnUserContentProvider.CONTENT_ITEM_TYPE, userUri);
 
+                startActivity(i);
+            }
+        });
         return view;
     }
 
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        return new CursorLoader(getActivity(), RepnUserContentProvider.CONTENT_URI, null, null, null, RepnContract.User.COLUMN_NAME_LAST_NAME);
+        return new CursorLoader(getActivity(), RepnUserContentProvider.CONTENT_URI, new String[]{
+                RepnContract.User._ID, RepnContract.User.COLUMN_NAME_FIRST_NAME, RepnContract.User.COLUMN_NAME_LAST_NAME
+        }, null, null, RepnContract.User.COLUMN_NAME_LAST_NAME);
     }
 
     @Override

@@ -3,8 +3,11 @@ package be.repn.repnmobile;
 import android.content.*;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.provider.BaseColumns;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -67,8 +70,12 @@ public class RepnUserContentProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
-        SQLiteDatabase readableDatabase = userDBHelper.getReadableDatabase();
-        Cursor cursor = readableDatabase.query(RepnContract.User.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+        SQLiteQueryBuilder queryBuilder = new SQLiteQueryBuilder();
+        queryBuilder.setTables(RepnContract.User.TABLE_NAME);
+        switch(sURIMatcher.match(uri)){
+            case REPN_USER : queryBuilder.appendWhere(RepnContract.User._ID + "=" + uri.getLastPathSegment());
+        }
+        Cursor cursor = queryBuilder.query(userDBHelper.getReadableDatabase(), projection, selection, selectionArgs, null, null, sortOrder);
         cursor.setNotificationUri(getContext().getContentResolver(), uri);
         return cursor;
     }
@@ -93,9 +100,37 @@ public class RepnUserContentProvider extends ContentProvider {
         context.getContentResolver().insert(CONTENT_URI, values);
     }
 
+    /**
+     * The cursor is supposed to be at the right location and wont be closed by this method
+     */
+    public static User getUserFromCursor(Cursor cursor){
+        User user = new User();
+        user.setEmail(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_EMAIL)));
+        user.setLastName(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_LAST_NAME)));
+        user.setFirstName(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_FIRST_NAME)));
+        user.setCity(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_CITY)));
+        user.setStreet(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_STREET)));
+        user.setStreetNumber(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_STREET_NUMBER)));
+        user.setMobile(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_MOBILE)));
+        user.setBirthDate(getTimeStampFromString(cursor.getString(cursor.getColumnIndexOrThrow(RepnContract.User.COLUMN_NAME_BIRTH_DATE))));
+
+        return user;
+    }
+
     private static String getDateTime(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat(
                 "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(date);
+    }
+
+    private static Long getTimeStampFromString(String dateStr){
+        if(dateStr == null) return null;
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        try {
+            return dateFormat.parse(dateStr).getTime();
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

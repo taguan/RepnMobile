@@ -33,8 +33,17 @@
             android:name=".RepnUserContentProvider"
             android:authorities="be.repn.repnmobile.contentprovider"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="false" >
         </provider>
+
+        <activity
+            android:name=".UserDetailsActivity"
+            android:label="@string/title_activity_user_details"
+            android:parentActivityName=".UserListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="be.repn.repnmobile.UserListActivity" />
+        </activity>
     </application>
 
 </manifest>

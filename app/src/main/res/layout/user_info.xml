@@ -22,4 +22,5 @@
             android:layout_alignLeft="@+id/firstNameView"
             android:layout_alignStart="@+id/firstNameView"
             android:layout_below="@+id/firstNameView"/>
+
 </RelativeLayout>
