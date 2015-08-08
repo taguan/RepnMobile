@@ -5,9 +5,9 @@
       <item android:id="@+id/action_synchronize"
             android:title="@string/action_synchronize"
             android:orderInCategory="100"
-            app:showAsAction="ifRoom|withText"/>
-    <item android:id="@+id/action_settings"
-          android:title="@string/action_settings"
+            app:showAsAction="never"/>
+    <item android:id="@+id/action_modify_secure_code"
+          android:title="@string/action_modify_secure_code"
           android:orderInCategory="100"
           app:showAsAction="never"/>
 </menu>

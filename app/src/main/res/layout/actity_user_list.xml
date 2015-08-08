@@ -4,11 +4,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
+    <TextView
+            android:padding="15dp"
+            android:paddingRight="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:layout_alignParentTop="true"
+            android:text="@string/user_list_explanation"
+            android:layout_alignParentLeft="true"
+            android:id="@+id/user_list_explanation"
+            android:layout_alignParentStart="true"/>
+
     <fragment
             android:name="be.repn.repnmobile.UserListFragment"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/user_list_fragment"
+            android:layout_below="@+id/user_list_explanation"
             tools:layout="@layout/fragment_user_list"/>
 
 </RelativeLayout>

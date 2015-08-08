@@ -12,6 +12,7 @@
             android:layout_marginTop="60dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/enterSecureCode"
             android:layout_centerHorizontal="true"
@@ -32,9 +33,21 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
+            android:id="@+id/connectButton"
             android:text="@string/connectButton"
             android:layout_below="@id/secureCodeEditText"
             android:onClick="submitSecurityCode"/>
+
+    <TextView
+            android:layout_margin="60dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/login_help"
+            android:layout_below="@id/connectButton"
+            android:layout_centerHorizontal="true" />
+
     <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

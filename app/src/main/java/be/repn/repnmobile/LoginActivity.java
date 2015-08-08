@@ -23,11 +23,24 @@ import java.net.URI;
 
 public class LoginActivity extends AppCompatActivity {
 
+    public static final String FORCE_NEW_LOGIN = "be.repn.repnmobile.FORCE_NEW_LOGIN";
+
     private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
+        if(extras == null || !extras.getBoolean(FORCE_NEW_LOGIN))
+            checkIfSecurityCodeIsPresent();
+
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage(getResources().getString(R.string.waitForCredentialCheck));
+        progressDialog.setCancelable(false);
+        setContentView(R.layout.activity_login);
+    }
+
+    private void checkIfSecurityCodeIsPresent() {
         try {
             Optional<String> currentSecureCode = SecurityHelpers.getCurrentSecureCode(this);
             if(currentSecureCode.isPresent()){
@@ -36,17 +49,12 @@ public class LoginActivity extends AppCompatActivity {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage(getResources().getString(R.string.waitForCredentialCheck));
-        progressDialog.setCancelable(false);
-        setContentView(R.layout.activity_login);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_login, menu);
+//        getMenuInflater().inflate(R.menu.menu_login, menu);
         return true;
     }
 
@@ -55,12 +63,12 @@ public class LoginActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+//        int id = item.getItemId();
+//
+//        //noinspection SimplifiableIfStatement
+//        if (id == R.id.action_settings) {
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

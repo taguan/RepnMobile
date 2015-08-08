@@ -90,4 +90,12 @@ public class User {
         if(city != null) sb.append(city);
         return sb.toString();
     }
+
+    public String getFormattedAddress() {
+        StringBuilder sb = new StringBuilder();
+        if(street != null) sb.append(street).append(", ");
+        if(streetNumber != null) sb.append(streetNumber).append("\n");
+        if(city != null) sb.append(city);
+        return sb.toString();
+    }
 }

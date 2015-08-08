@@ -3,17 +3,16 @@ package be.repn.repnmobile;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.provider.ContactsContract;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import java.io.IOException;
 
 
 public class UserDetailsActivity extends AppCompatActivity {
@@ -40,6 +39,14 @@ public class UserDetailsActivity extends AppCompatActivity {
         cursor.close();
         TextView firstNameView = (TextView) findViewById(R.id.firstName_detail_view);
         firstNameView.setText(user.getFirstName());
+        TextView lastNameView = (TextView) findViewById(R.id.last_detail_view);
+        lastNameView.setText(user.getLastName());
+        TextView phoneView = (TextView) findViewById(R.id.phone_detail_view);
+        phoneView.setText(user.getPhone());
+        TextView emailView = (TextView) findViewById(R.id.email_detail_view);
+        emailView.setText(user.getEmail());
+        TextView addressView = (TextView) findViewById(R.id.address_detail_view);
+        addressView.setText(user.getFormattedAddress());
 
         if(user.getMobile() == null){
             findViewById(R.id.callButton).setEnabled(false);
@@ -57,23 +64,31 @@ public class UserDetailsActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_user_details, menu);
+        getMenuInflater().inflate(R.menu.menu_user_list, menu);
         return true;
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (id) {
+            case R.id.action_modify_secure_code:
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                intent.putExtra(LoginActivity.FORCE_NEW_LOGIN, true);
+                startActivity(intent);
+                return true;
+            case R.id.action_synchronize:
+                try {
+                    RestService.startActionSynchroUsers(getApplicationContext());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     public void startDial(View view) {
