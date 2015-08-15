@@ -42,7 +42,7 @@ public class UserDetailsActivity extends AppCompatActivity {
         TextView lastNameView = (TextView) findViewById(R.id.last_detail_view);
         lastNameView.setText(user.getLastName());
         TextView phoneView = (TextView) findViewById(R.id.phone_detail_view);
-        phoneView.setText(user.getPhone());
+        phoneView.setText(user.getMobile());
         TextView emailView = (TextView) findViewById(R.id.email_detail_view);
         emailView.setText(user.getEmail());
         TextView addressView = (TextView) findViewById(R.id.address_detail_view);
